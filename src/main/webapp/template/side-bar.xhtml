@@ -6,10 +6,10 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"> 
 
 <ui:composition>
-	<ul class="navbar-nav  sidebar sidebar-dark accordion" style="background-color: #960B33" id="accordionSidebar">
+	<ul class="navbar-nav  sidebar sidebar-dark accordion" style="background-color: #ff6666" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-shoe-prints"></i>
                 </div>
@@ -20,8 +20,8 @@
             <hr class="sidebar-divider my-0"></hr>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item #{view.viewId eq'/views/orders.xhtml' ? 'active' : '' }">
-            <h:link outcome="/views/orders" styleClass="nav-link">
+            <li class="nav-item #{view.viewId eq'/admin/dasboard.xhtml' ? 'active' : '' }">
+            <h:link outcome="/admin/dasboard" styleClass="nav-link">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Order</span>
                </h:link>
@@ -32,32 +32,32 @@
             
             <!-- Nav Item - Charts -->
             
-            <li class="nav-item #{view.viewId eq'/views/categories.xhtml' ? 'active' : '' }">
-            <h:link outcome="/views/categories" styleClass="nav-link">
+            <li class="nav-item #{view.viewId eq'/admin/categories.xhtml' ? 'active' : '' }">
+            <h:link outcome="/admin/categories" styleClass="nav-link">
             <i class="fas fa-fw fa-table"></i>
               <span>Categories</span>
               </h:link>
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item #{view.viewId eq'/views/brands.xhtml' ? 'active' : '' }">
-            <h:link outcome="/views/brands" styleClass="nav-link">
+            <li class="nav-item #{view.viewId eq'/admin/brands.xhtml' ? 'active' : '' }">
+            <h:link outcome="/admin/brands" styleClass="nav-link">
             	<i class="fas fa-fw fa-table"></i>
                     <span>Brands</span>
             </h:link>
              </li>
              
                 <!-- Nav Item - Tables -->
-            <li class="nav-item #{view.viewId eq'/views/products.xhtml' ? 'active' : '' }">
-                <h:link outcome="/views/products" styleClass="nav-link">
+            <li class="nav-item #{view.viewId eq'/admin/products.xhtml' ? 'active' : '' }">
+                <h:link outcome="/admin/products" styleClass="nav-link">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Products</span>
                 </h:link>
             </li>
             
 			
-			<li class="nav-item #{view.viewId eq'/views/users.xhtml' ? 'active' : '' }">
-                <h:link outcome="/views/users" styleClass="nav-link">
+			<li class="nav-item #{view.viewId eq'/admin/users.xhtml' ? 'active' : '' }">
+                <h:link outcome="/admin/users" styleClass="nav-link">
                     <i class="fa fa-address-book"></i>
                     <span>Users</span>
                  </h:link>

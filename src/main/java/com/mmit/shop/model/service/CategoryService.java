@@ -18,9 +18,9 @@ public class CategoryService {
 	public void save(Category category) {
 		if(category.getId()== 0)
 			em.persist(category);
-		/*
-		 * else em.merge(category);
-		 */
+		
+		  else em.merge(category);
+		 
 		
 	}
 

@@ -40,7 +40,7 @@ public class BrandBean implements Serializable{
 	
 	public String save() {
 		service.save(brand);
-		return "/views/brands?faces-redirect=true";
+		return "/admin/brands?faces-redirect=true";
 	}
 	public BrandService getService() {
 		return service;

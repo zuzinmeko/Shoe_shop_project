@@ -18,7 +18,7 @@ public class BrandService {
 	public void save(Brand brand) {
 		if(brand.getId()== 0)
 			em.persist(brand);
-		
+		else em.merge(brand);
 		
 	}
 

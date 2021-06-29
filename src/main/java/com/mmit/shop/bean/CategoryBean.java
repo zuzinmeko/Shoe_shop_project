@@ -40,7 +40,7 @@ public class CategoryBean implements Serializable{
 	
 	public String save() {
 		service.save(category);
-		return "/views/categories?faces-redirect=true";
+		return "/admin/categories?faces-redirect=true";
 	}
 
 	public List<Category> getCategories() {
