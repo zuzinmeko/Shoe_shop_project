@@ -18,7 +18,7 @@ public class CategoryConverter implements Converter<Category>{
 	@Override
 	public Category getAsObject(FacesContext context, UIComponent component, String value) {
 		if(value !=null)
-			service.findById(Integer.parseInt(value));
+			return service.findById(Integer.parseInt(value));
 		
 		return null;
 	}

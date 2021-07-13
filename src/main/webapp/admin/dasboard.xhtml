@@ -27,10 +27,19 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <h:dataTable var="o" value="#{orderBean.orderList}" styleClass="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <h:form>
+                                <h:dataTable  var="o" value="#{orderBean.orderList}" styleClass="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 	<h:column>
-                                		<f:facet name="header">Name</f:facet>
+                                		<f:facet name="header">No</f:facet>
                                 		#{o.id}
+                                		
+                                	</h:column>
+                                	<h:column>
+                                		<f:facet name="header">Code</f:facet>
+                                		<h:commandLink action="#{placeOrderBean.getOrderDetails(o.id)}" onclick="$('#order-item-dialog').modal('show');">
+                                			<h:outputText value="CODE-#{o.id}"></h:outputText>
+                                			<f:ajax render="order-item"></f:ajax>
+                                		</h:commandLink>
                                 	</h:column>
                                 	<h:column>
                                 		<f:facet name="header">Customer Name</f:facet>
@@ -50,14 +59,59 @@
                                 	</h:column>
                                 	<h:column>
                                 		<f:facet name="header">Staus</f:facet>
+                                		
                                 		#{o.status.name()}
+                                		<h:outputText value="(#{o.receivedDate})" rendered="#{o.status== 'Received'}" />
                                 	</h:column>
-                                	
-                                </h:dataTable>
+                                	<h:column>
+                                		<f:facet name="header">Action</f:facet>
+                                		<h:outputText value="-" rendered="#{o.status =='Delivered'}" />
+                                		<h:commandLink action="#{orderBean.changeOrderStatus(o.id,'Received')}" rendered="#{o.status =='Pending'}" value="Receiver" styleClass="btn btn-secondary btn-sm">
+                                			<f:ajax render="@form"></f:ajax>
+                                		</h:commandLink>
+                                		<h:commandLink action="#{orderBean.changeOrderStatus(o.id,'Delivered')}" rendered="#{o.status == 'Received'}" value="Delivered" styleClass="btn btn-danger ml-2 btn-sm">
+                                			<f:ajax render="@form"></f:ajax>
+                                		</h:commandLink>
+                                	</h:column>
+                                </h:dataTable></h:form>
                             </div>
                         </div>
                     </div>
-		
+		<!--  -->
+		   <div class="fade modal mt-2" id="order-item-dialog">
+        	<div class="modal-dialog">
+        		<div class="modal-content">
+        			<div class="modal-body">
+        				<h6>Order Details</h6>
+        				<h:dataTable binding="#{t1}" styleClass="table" id="order-item" value="#{placeOrderBean.orderDetails}" var="od">
+        					<h:column>
+        						<f:facet name="header">No</f:facet>
+        						#{t1.rowIndex+1}
+        					</h:column>
+        					<h:column>
+        						<f:facet name="header">Name</f:facet>
+        						#{od.product.name}
+        					</h:column>
+        					<h:column>
+        						<f:facet name="header">Price</f:facet>
+        						#{od.product.price}
+        					</h:column>
+        					<h:column>
+        						<f:facet name="header">Qty</f:facet>
+        						#{od.subQty}
+        					</h:column>
+        					<h:column>
+        						<f:facet name="header">Total Amount</f:facet>
+        						#{od.subPrice()}
+        					</h:column>
+        				</h:dataTable>
+        			</div>
+        			<div class="modal-footer">
+        				 <button type="button" class="btn btn-secondary" p:aria-label="Close">Close</button>
+        			</div>
+        		</div>
+        	</div>
+        </div>
 	</ui:define>
 </ui:composition>
 </html>

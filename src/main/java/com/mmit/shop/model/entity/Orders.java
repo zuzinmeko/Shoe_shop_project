@@ -15,7 +15,8 @@ import static javax.persistence.CascadeType.PERSIST;
  *
  */
 @Entity
-@NamedQuery(name="orders.findAll",query="SELECT o FROM Orders o ORDER BY o.orderDate")
+@NamedQuery(name = "order.findbyLoginId",query="SELECT o FROM Orders o WHERE o.customer.id=:loginId")
+@NamedQuery(name="orders.findAll",query="SELECT o FROM Orders o ORDER BY o.orderDate DESC")
 public class Orders implements Serializable {
 
 	
@@ -28,22 +29,35 @@ public class Orders implements Serializable {
 	@JoinColumn(name="customer_id")
 	private Users1 customer;
 	
+	private LocalDate receivedDate;
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	public enum Status {
-		Pending,Delivered
+		Pending,Received,Delivered
 	}
 	@CreationTimestamp
 	private LocalDate orderDate;
-	@OneToMany(mappedBy = "order", cascade = PERSIST)
 	
+	@OneToMany(mappedBy = "order", cascade = PERSIST)
 	private List<OrderDetail> details=new ArrayList<OrderDetail>();
 	
+	@OneToOne(mappedBy = "order", cascade = PERSIST)
+	private Delivery delivery=new Delivery();
+	
+	/*
+	 * @PrePersist private void initilizerOrderStatus() { status=Status.Pending;
+	 * 
+	 * }
+	 */
 	public void addOrderItem(OrderDetail detail) {
 		detail.setOrder(this);
 		details.add(detail);
 	}
 	
+	public void addDelivery(Delivery d) {
+		d.setOrder(this);
+		this.setDelivery(d);
+	}
 	public int getTotalQty() {
 		return details.stream().mapToInt(d-> d.getSubQty()).sum();
 	}
@@ -84,6 +98,22 @@ public class Orders implements Serializable {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public Delivery getDelivery() {
+		return delivery;
+	}
+
+	public void setDelivery(Delivery delivery) {
+		this.delivery = delivery;
+	}
+
+	public LocalDate getReceivedDate() {
+		return receivedDate;
+	}
+
+	public void setReceivedDate(LocalDate receivedDate) {
+		this.receivedDate = receivedDate;
 	}
    
 }

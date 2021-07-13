@@ -2,6 +2,8 @@ package com.mmit.shop.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -17,6 +19,7 @@ import static javax.persistence.FetchType.EAGER;
 @Entity
 @Table(name = "categories")
 @NamedQuery(name = "Category.findAll",query="SELECT c FROM Category c")
+@NamedQuery(name = "Category.findByName",query="SELECT c FROM Category c WHERE c.name=:name")
 public class Category implements Serializable {
 
 	
@@ -38,6 +41,8 @@ public class Category implements Serializable {
 	@JoinColumn(name = "updated_by")
 	private Users1 updated_by;
 	
+	@OneToMany(mappedBy = "category")
+	private List<Product> products=new ArrayList<Product>();
 	public Category() {
 		super();
 	}
@@ -116,6 +121,14 @@ public class Category implements Serializable {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
 	}
    
 }

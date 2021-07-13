@@ -10,9 +10,9 @@
 	<ui:define name="main-header">User List</ui:define>
 	<ui:define name="sub-header">User</ui:define>
 	<ui:define name="add-button">
-		<a href="#" class="col-2 d-none d-sm-inline-block btn btn shadow-sm" style="background-color: #ff6666">
-		<i class="fas fa-plus fa-sm text-white-50"></i> Add User</a>
-		
+	<h:link outcome="/admin/user-add" styleClass="col-2 d-none d-sm-inline-block btn btn shadow-sm" style="background-color: #ff6666">
+		<i class="fas fa-plus fa-sm text-white-50"></i> Add User
+	</h:link>
 	</ui:define>
 	<!--main content  -->
 	<ui:define name="main-content">
@@ -23,7 +23,12 @@
                         <div class="card-body">
                             <div class="table-responsive">
                             
-                             <h:dataTable var="user" value="#{userBean.users}" styleClass="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                             <h:dataTable binding="#{r}" var="user" value="#{userBean.users}" styleClass="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                               <h:column>
+                               		<f:facet name="header">ID</f:facet>
+                               			#{r.rowIndex+1}
+                               	
+                               	</h:column>
                                	<h:column>
                                		<f:facet name="header">Name</f:facet>
                                			#{user.userName}
@@ -49,9 +54,11 @@
                                	</h:column>
                                	<h:column>
                                		<f:facet name="header">Action</f:facet>
-                               		<a href="#">
+                               		<h:link outcome="/admin/user-add" rendered="#{loginBean.loginUser.role == 'Admin'}">
+                               			<f:param name="userId" value="#{user.id}"></f:param>
                                			<i class="fas fa-edit"></i>Edit
-                               		</a>|
+                               		</h:link>
+                               		|
                                		<a href="#">Remove</a>
                                	</h:column>
                                </h:dataTable>

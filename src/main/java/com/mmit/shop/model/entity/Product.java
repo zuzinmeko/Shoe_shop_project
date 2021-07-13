@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import static javax.persistence.FetchType.EAGER;
 
 /**
@@ -11,6 +15,8 @@ import static javax.persistence.FetchType.EAGER;
  *
  */
 @Entity
+@NamedQuery(name="Product.findByNameBrandCategory",query="SELECT p FROM Product p WHERE p.brand.id=:bId AND p.category.id=:cId AND p.name=:pname")
+@NamedQuery(name="Product.findPhoto",query="SELECT p.photo FROM Product p WHERE p.id=:id")
 @NamedQuery(name="product.findAll",query="SELECT p FROM Product p ORDER BY p.create_at DESC")
 public class Product implements Serializable {
 
@@ -23,7 +29,7 @@ public class Product implements Serializable {
 	private String name;
 	
 	private int price;
-	
+	@Column(columnDefinition = "TEXT")
 	private String productDetails;
 	private String photo;
 	@ManyToOne
@@ -43,7 +49,9 @@ public class Product implements Serializable {
 	private enum Status{
 		Active,Inactive
 	}
+	@CreationTimestamp
 	private LocalDate create_at;
+	@UpdateTimestamp
 	private LocalDate update_at;
 	
 	public Product() {

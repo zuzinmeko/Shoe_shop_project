@@ -41,6 +41,7 @@ public class LoginBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		loginUser=new Users1();
+		
 	}
 	
 		public String login() {
@@ -57,6 +58,30 @@ public class LoginBean implements Serializable {
 				cxt.addMessage(null, new FacesMessage(e.getMessage()));
 			}
 			return null;
+		}
+		public String cus_login() {
+			try {
+				HttpServletRequest req=(HttpServletRequest) exContent.getRequest();
+				HttpServletResponse response=(HttpServletResponse) exContent.getResponse();
+				UsernamePasswordCredential credential=new UsernamePasswordCredential(loginId, password);
+				AuthenticationStatus status=securityContext.authenticate(req, response, AuthenticationParameters.withParams().credential(credential));
+				
+				if(status== AuthenticationStatus.SUCCESS)
+					return "/customer_view";
+			} catch (AppException e) {
+				FacesContext cxt=FacesContext.getCurrentInstance();
+				cxt.addMessage(null, new FacesMessage(e.getMessage()));
+			}
+			return null;
+		}
+		
+		public String logout() {
+			FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+			return "/index.xhtml? faces-redirect=true";
+		}
+		public String cus_logout() {
+			FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+			return "/customer_view.xhtml? faces-redirect=true";
 		}
 		public String getLoginId() {
 			return loginId;

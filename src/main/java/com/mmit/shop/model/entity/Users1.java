@@ -13,7 +13,8 @@ import org.hibernate.annotations.UpdateTimestamp;
  *
  */
 @Entity
-@NamedQuery(name="Users.findAll",query="SELECT u FROM Users1 u ")
+
+@NamedQuery(name="Users.findAll",query="SELECT u FROM Users1 u WHERE u.LoginId <> :id ")
 @NamedQuery(name="Users.findLoginId",query="SELECT u FROM Users1 u WHERE u.LoginId=:LoginId")
 @NamedQuery(name="User.getCount",query="SELECT count(u) FROM Users1 u")
 @Table(name="users")
@@ -25,7 +26,9 @@ public class Users1 implements Serializable {
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private int id;
+		
 		private String userName;
+		@Column(nullable = false,unique = true)
 		private String LoginId;
 		private String password;
 		private String phone;

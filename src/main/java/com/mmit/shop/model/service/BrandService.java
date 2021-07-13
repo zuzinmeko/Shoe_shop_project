@@ -8,6 +8,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import com.mmit.shop.model.entity.Brand;
+import com.mmit.shop.model.entity.Category;
+import com.mmit.shop.model.entity.Product;
 
 @Stateless
 public class BrandService {
@@ -24,7 +26,9 @@ public class BrandService {
 
 	public List<Brand> findAll() {
 		TypedQuery<Brand> query=em.createNamedQuery("Brand.findAll", Brand.class);
-		return query.getResultList();
+		List<Brand> list=query.getResultList();
+		list.forEach(b-> b.getProducts().forEach(p->System.out.println()));
+		return list;
 	}
 
 	public Brand findById(int id) {

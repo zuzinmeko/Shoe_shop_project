@@ -10,9 +10,16 @@
 	<ui:define name="main-header">Product List</ui:define>
 	<ui:define name="sub-header">Products</ui:define>
 	<ui:define name="add-button">
-		<h:link outcome="/admin/product-add" styleClass="col-2 d-none d-sm-inline-block btn btn shadow-sm" style="background-color: #ff6666">
+		
+		<div class="col-4">
+		<h:link id="btn-upload" styleClass="d-none d-sm-inline-block btn btn shadow-sm" style="background-color: gold;">
+			<i class="fas fa-upload fa-sm text-white-50" ></i>Upload
+		</h:link>
+		<h:link outcome="/admin/product-add" styleClass="ml-2 d-none d-sm-inline-block btn btn shadow-sm" style="background-color: #ff6666">
 			<i class="fas fa-plus fa-sm text-white-50" ></i>Add Product
 		</h:link>
+		</div>
+		
 	</ui:define>
 	<!--main content  -->
 	<ui:define name="main-content">
@@ -22,14 +29,19 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                               <h:dataTable var="p" value="#{productBean.products}" styleClass="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <h:form>
+                               <h:dataTable binding="#{b}" var="p" value="#{productBean.products}" styleClass="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                	<h:column>
                                		<f:facet name="header">No</f:facet>
-                               		#{p.id}
+                               		#{b.rowIndex+1}
                                	</h:column>
                                	<h:column>
                                		<f:facet name="header">Name</f:facet>
                                		#{p.name}
+                               		<h:link outcome="/admin/product-detail">
+                               		<f:param name="id" value="#{p.id}"></f:param>
+                               				<i class="fas fa-eye"></i>
+                               		</h:link>
                                	</h:column>
                                	<h:column>
                                		<f:facet name="header">Price</f:facet>
@@ -46,18 +58,35 @@
                                	<h:column>
                                		<f:facet name="header">Action</f:facet>
                                		<h:link outcome="/admin/product-add">
-                               			<f:param name="pId" value="#{productBean.product.id}"></f:param>
+                               			<f:param name="id" value="#{p.id}"></f:param>
                                			<i class="fas fa-edit"></i>Edit
                                		</h:link>
                                		|
+                               		<h:commandLink styleClass="text-danger" action="#{productBean.remove(p.id)}" onclick="if(!confirm('Are you sure want to delete?')){return false;}" >
+                               			<i class="fas fa-minus"></i>Remove
+                               		</h:commandLink>
                                		
-                               		<a href="#">Remove</a> 
                                	</h:column>
-                               </h:dataTable>
+                               </h:dataTable></h:form>
                             </div>
                         </div>
                     </div>
-		
+		<h:form enctype="multipart/form-data" styleClass="d-none">
+		<h:inputFile styleClass="file-open" value="#{productBean.uploadFiel()}"></h:inputFile>
+		<h:commandButton action="#{productBean.uploadFiel()}" value="upload" styleClass="upload"></h:commandButton>
+		</h:form>
+	</ui:define>
+	<ui:define name="js">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#btn-upload').click(function() {
+					$('.file-open').click();
+				});
+				$('.file-open').change(function() {
+					$('.upload').click();
+				});
+			});
+		</script>
 	</ui:define>
 </ui:composition>
 </html>

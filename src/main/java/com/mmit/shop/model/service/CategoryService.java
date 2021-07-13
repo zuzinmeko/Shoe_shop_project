@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import com.mmit.shop.model.entity.Category;
+import com.mmit.shop.model.entity.Product;
 
 @Stateless
 public class CategoryService {
@@ -26,7 +27,10 @@ public class CategoryService {
 
 	public List<Category> findAll() {
 		TypedQuery<Category> query=em.createNamedQuery("Category.findAll", Category.class);
-		return query.getResultList();
+		List<Category> list=query.getResultList();
+		list.forEach(c-> c.getProducts().forEach(p->System.out.println()));
+	
+		return list;
 	}
 
 	public Category findById(int id) {
